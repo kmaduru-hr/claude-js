@@ -106,7 +106,66 @@ while (l <= r) {
     else l = mid + 1;
 }
 
+/*
+DFS — Trees, graphs, recursion
+Use when:  
+  You see connected components, islands, tree traversal, backtracking.
+*/
 
+function dfs(node) {
+    if (!node || visited.has(node)) return;
+    visited.add(node);
+
+    for (let nei of graph[node]) dfs(nei);
+}
+/*
+BFS — Shortest path, levels
+
+Use when:  
+  You see shortest path, minimum steps, level order, 01 matrix.
+*/
+
+const q = [start];
+const visited = new Set([start]);
+
+while (q.length) {
+    const size = q.length;
+    for (let i = 0; i < size; i++) {
+        const node = q.shift();
+        for (let nei of graph[node]) {
+            if (!visited.has(nei)) {
+                visited.add(nei);
+                q.push(nei);
+            }
+        }
+    }
+}
+
+/*
+
+Backtracking — Permutations, subsets, combinations
+
+Use when:  
+  You see generate all, permutations, subsets, combinations.
+*/
+function backtrack(path, start) {
+    res.push([...path]);
+    for (let i = start; i < nums.length; i++) {
+        path.push(nums[i]);
+        backtrack(path, i + 1);
+        path.pop();
+    }
+}
+/*
+Dynamic Programming — Optimal substructure
+
+Use when:  
+  You see min cost, max profit, ways, paths, dp[i][j].
+*/
+const dp = Array(n).fill(0);
+for (let i = 1; i < n; i++) {
+    dp[i] = Math.min(dp[i-1], dp[i-2]) + cost[i];
+}
 
 
 
