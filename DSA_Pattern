@@ -1,0 +1,24 @@
+/* Sliding Window — Strings & Arrays 
+Use when:  
+You see substring, subarray, longest, smallest, at most K, distinct, frequency.
+Problems:  
+Longest substring without repeat, Minimum window substring, Fruits into baskets.
+  -- str = 'abcabcbbdce'
+*/
+
+let left = 0;
+const freq = new Map();
+
+  for(let right = 0; right < s.length; right++){
+    // expnad the window here
+
+    freq.set(s[right], (freq.get(s[right]) || 0) + 1);
+  
+    while ( condition_not_met){
+      //shrink window
+          freq.set(s[left], freq.get(s[left]) -1);
+          left++;
+    }
+      //update answer
+  }
+
