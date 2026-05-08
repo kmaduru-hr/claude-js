@@ -167,5 +167,49 @@ for (let i = 1; i < n; i++) {
     dp[i] = Math.min(dp[i-1], dp[i-2]) + cost[i];
 }
 
+/*
+Greedy — Intervals, scheduling
+
+Use when:  
+ You see minimum number, merge intervals, non-overlapping, max profit.
+*/
+intervals.sort((a,b) => a[1] - b[1]);
+let end = -Infinity, count = 0;
+
+for (let [s,e] of intervals) {
+    if (s >= end) {
+        count++;
+        end = e;
+    }
+}
+/*
+Trie — Prefix search, autocomplete
+Use when:  
+  You see prefix, dictionary, autocomplete, word search.
+*/
+class TrieNode {
+    constructor() {
+        this.children = {};
+        this.end = false;
+    }
+}
+/*
+Graph Topological Sort — Dependencies, ordering
+
+Use when:  
+  You see prerequisites, order, dependencies, DAG.
+*/
+const indegree = Array(n).fill(0);
+for (let [u,v] of edges) indegree[v]++;
+
+const q = [];
+for (let i = 0; i < n; i++) if (indegree[i] === 0) q.push(i);
+
+while (q.length) {
+    const node = q.shift();
+    for (let nei of graph[node]) {
+        if (--indegree[nei] === 0) q.push(nei);
+    }
+}
 
 
