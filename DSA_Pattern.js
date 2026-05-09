@@ -213,3 +213,33 @@ while (q.length) {
 }
 
 
+
+============================HashMap=====================================
+  -------------Frequency + Sliding Window-------------------
+
+const freq = new Map();
+ for(let c of p){ freq.set(c, (freq.get(c) || 0) +1) }
+ let left=0, matches = 0;
+ for(let right = 0; right < s.length; right++){
+     const char = s[right];
+
+     if(freq.has(char)){
+        freq.set(char,freq.get(char) -1);
+        if((freq.get(char) === 0) matches++;
+     }
+
+   while(right - left + 1 > p.length){
+     const leftChar = s[left];
+     if(freq.has(leftChar)){
+       if(freq.get(leftChar) === 0 ) matches--;
+       freq.set(leftChar, freq.getr(leftChar) + 1);
+     }
+     left++;
+   }
+
+   if(matches === freq.size) return true;
+ }
+
+
+
+
