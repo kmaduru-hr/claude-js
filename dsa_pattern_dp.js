@@ -65,4 +65,19 @@ var minSwap = function(nums1, nums2) {
     return Math.min(keep, swap);
 };
 
-//
+//coin change [1 2 5] amount= 5
+Function coinConvert(arr, k){
+    Let dp= Array(k+1).fill(k+1);
+    dp[0] = 0;
+    for(let i=1; I< k; I++){
+    	for(let coin of arr){
+    	   if(I - coin >= 0){
+    		dp[i] = Math.min(dp[i], dp[i-coin] + 1);
+    	   }			
+    	}
+    } 
+ Return dp[k] !== amount +1 ? dp[amount] : -1;
+}
+
+
+
