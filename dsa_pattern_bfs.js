@@ -23,3 +23,25 @@ while(q.length){
       }
   }
 }
+// second method BFS also we can use by DP
+
+changeCoin(arr, k){
+   let q=[0];
+   Let visited = new Set([0]);
+   Let steps = 0;
+   while(q.length>0){
+	let size = q.length;
+	steps++;
+        while(size--){
+	   let cur = q.shift();
+ 	   for(let coin of coins){
+	       let next = cur + coin;
+	       if(next === k) return steps; 
+	       if(next < k && !visiterd.has(next)){
+		   q.push(next);
+		   visited.add(next);
+		}	
+	}
+  }
+Return -1;
+}
