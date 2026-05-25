@@ -78,6 +78,34 @@ Function coinConvert(arr, k){
     } 
  Return dp[k] !== amount +1 ? dp[amount] : -1;
 }
+// minimum swaps to create a shorted array
+function minSwaps(arr) {
+    const n = arr.length;
+
+    const arrPos = arr.map((value, index) => ({ value, index }));
+    arrPos.sort((a, b) => a.value - b.value);
+
+    const visited = new Array(n).fill(false);
+    let swaps = 0;
+
+    for (let i = 0; i < n; i++) {
+        if (visited[i] || arrPos[i].index === i) continue;
+
+        let cycleSize = 0;
+        let j = i;
+
+        while (!visited[j]) {
+            visited[j] = true;
+            j = arrPos[j].index;
+            cycleSize++;
+        }
+
+        swaps += cycleSize - 1;
+    }
+
+    return swaps;
+}
+// 
 
 
 
