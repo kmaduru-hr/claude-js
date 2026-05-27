@@ -97,5 +97,94 @@ function twoSum(nums, target) {
   return []; // or null if no solution
 }
 
-//**
+//** • Word Break (DP + backtracking).
 
+function wordBreak(s, wordDict) {
+    const n = s.length;
+    const wordSet = new Set(wordDict);
+
+    // ---------- DP: mark valid breakpoints ----------
+    const dp = Array(n + 1).fill(false);
+    dp[0] = true;
+
+    for (let i = 1; i <= n; i++) {
+        for (let j = 0; j < i; j++) {
+            if (dp[j] && wordSet.has(s.substring(j, i))) {
+                dp[i] = true;
+                break;
+            }
+        }
+    }
+
+    if (!dp[n]) return []; // no valid segmentation
+
+    // ---------- DFS + Memo ----------
+    const memo = new Map();
+
+    function dfs(start) {
+        if (memo.has(start)) return memo.get(start);
+        if (start === n) return [""];
+
+        const result = [];
+
+        for (let end = start + 1; end <= n; end++) {
+            const word = s.substring(start, end);
+
+            if (wordSet.has(word) && dp[end]) {
+                const subs = dfs(end);
+                for (const sub of subs) {
+                    result.push(sub === "" ? word : word + " " + sub);
+                }
+            }
+        }
+
+        memo.set(start, result);
+        return result;
+    }
+
+    return dfs(0);
+}
+//**
+function solveNQueens(n) {
+    const result = [];
+    const board = Array.from({ length: n }, () => ".".repeat(n));
+
+    const cols = new Set();
+    const diag1 = new Set(); // row - col
+    const diag2 = new Set(); // row + col
+
+    function backtrack(row) {
+        if (row === n) {
+            result.push([...board]);
+            return;
+        }
+
+        for (let col = 0; col < n; col++) {
+            if (cols.has(col) || diag1.has(row - col) || diag2.has(row + col)) {
+                continue;
+            }
+
+            // place queen
+            cols.add(col);
+            diag1.add(row - col);
+            diag2.add(row + col);
+
+            const rowArr = board[row].split("");
+            rowArr[col] = "Q";
+            board[row] = rowArr.join("");
+
+            backtrack(row + 1);
+
+            // remove queen (backtrack)
+            cols.delete(col);
+            diag1.delete(row - col);
+            diag2.delete(row + col);
+            rowArr[col] = ".";
+            board[row] = rowArr.join("");
+        }
+    }
+
+    backtrack(0);
+    return result;
+}
+//**
