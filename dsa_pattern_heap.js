@@ -105,6 +105,24 @@ class MinHeap {
       [this.h[i], this.h[smallest]] = [this.h[smallest], this.h[i]];
       i = smallest;
     }
-
-  
 }
+// kth largest unsing array javascript
+
+function kthlargest(nums, k){
+let arr = [];
+
+  for(num of nums){
+    let i = arr.findIndex(x => x>k);
+    if(i === -1) arr.push(num);
+    else arr.splice(i,0,num);
+  }
+
+  if(arr.length > k){
+    arr.shift();
+  }
+  return arr[0];
+}
+// kth smallest 
+
+function 
+    
