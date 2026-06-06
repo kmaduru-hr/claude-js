@@ -188,3 +188,168 @@ function solveNQueens(n) {
     return result;
 }
 //**
+//water trap Input: height = [4,2,0,3,2,5] Output: 9
+
+var trap = function(height) {
+    let l = 0;
+    let r = height.length - 1;
+    let lmax = 0;
+    let rmax = 0;
+    let water = 0;
+    while (l < r) {
+        lmax= Math.max(lmax,height[l]);
+        rmax = Math.max(rmax,height[r]);
+        if(lmax < rmax){
+            water += lmax - height[l];
+            l++;
+        }else{
+            water += rmax - height[r];
+            r--;
+        }
+    }
+    return water;
+};
+//**
+
+//matrix of trap water
+
+class MinHeap {
+  constructor() {
+    this.data = [];
+  }
+
+  _swap(i, j) {
+    [this.data[i], this.data[j]] = [this.data[j], this.data[i]];
+  }
+
+  _parent(i) {
+    return Math.floor((i - 1) / 2);
+  }
+
+  _left(i) {
+    return 2 * i + 1;
+  }
+
+  _right(i) {
+    return 2 * i + 2;
+  }
+
+  push(item) {
+    this.data.push(item);
+    this._heapifyUp(this.data.length - 1);
+  }
+
+  _heapifyUp(i) {
+    while (i > 0) {
+      const p = this._parent(i);
+      if (this.data[p][0] <= this.data[i][0]) break; // compare by height
+      this._swap(p, i);
+      i = p;
+    }
+  }
+
+  pop() {
+    if (this.data.length === 0) return null;
+    const top = this.data[0];
+    const last = this.data.pop();
+    if (this.data.length > 0) {
+      this.data[0] = last;
+      this._heapifyDown(0);
+    }
+    return top;
+  }
+
+  _heapifyDown(i) {
+    const n = this.data.length;
+    while (true) {
+      let smallest = i;
+      const l = this._left(i);
+      const r = this._right(i);
+
+      if (l < n && this.data[l][0] < this.data[smallest][0]) {
+        smallest = l;
+      }
+      if (r < n && this.data[r][0] < this.data[smallest][0]) {
+        smallest = r;
+      }
+      if (smallest === i) break;
+      this._swap(i, smallest);
+      i = smallest;
+    }
+  }
+
+  isEmpty() {
+    return this.data.length === 0;
+  }
+}
+
+/**
+ * @param {number[][]} heightMap
+ * @return {number}
+ */
+var trapRainWater = function(heightMap) {
+  const m = heightMap.length;
+  if (m === 0) return 0;
+  const n = heightMap[0].length;
+  if (m < 3 || n < 3) return 0; // cannot trap
+
+  const visited = Array.from({ length: m }, () => Array(n).fill(false));
+  const heap = new MinHeap();
+
+  // Push all boundary cells into heap
+  for (let i = 0; i < m; i++) {
+    // left boundary
+    heap.push([heightMap[i][0], i, 0]);
+    visited[i][0] = true;
+    // right boundary
+    heap.push([heightMap[i][n - 1], i, n - 1]);
+    visited[i][n - 1] = true;
+  }
+
+  for (let j = 1; j < n - 1; j++) {
+    // top boundary
+    heap.push([heightMap[0][j], 0, j]);
+    visited[0][j] = true;
+    // bottom boundary
+    heap.push([heightMap[m - 1][j], m - 1, j]);
+    visited[m - 1][j] = true;
+  }
+
+  const dirs = [
+    [1, 0],
+    [-1, 0],
+    [0, 1],
+    [0, -1],
+  ];
+
+  let water = 0;
+
+  while (!heap.isEmpty()) {
+    const [h, i, j] = heap.pop();
+
+    for (const [di, dj] of dirs) {
+      const ni = i + di;
+      const nj = j + dj;
+
+      if (ni < 0 || ni >= m || nj < 0 || nj >= n || visited[ni][nj]) continue;
+
+      visited[ni][nj] = true;
+
+      const nh = heightMap[ni][nj];
+
+      if (nh < h) {
+        water += h - nh; // trapped water
+        heap.push([h, ni, nj]); // water raises this cell to height h
+      } else {
+        heap.push([nh, ni, nj]);
+      }
+    }
+  }
+
+  return water;
+};
+
+
+
+
+
