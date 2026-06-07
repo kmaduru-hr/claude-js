@@ -349,7 +349,94 @@ var trapRainWater = function(heightMap) {
   return water;
 };
 
+//**
+//Dijkstra Implementation (Adjacency List)
 
+function dijkstra(graph, start) {
+  const dist = {};
+  const heap = new MinHeap();
 
+  // Initialize distances
+  for (const node in graph) {
+    dist[node] = Infinity;
+  }
+  dist[start] = 0;
 
+  heap.push({ node: start, dist: 0 });
 
+  while (!heap.isEmpty()) {
+    const { node, dist: currDist } = heap.pop();
+
+    // Skip outdated entries
+    if (currDist > dist[node]) continue;
+
+    for (const [neighbor, weight] of graph[node]) {
+      const newDist = currDist + weight;
+
+      if (newDist < dist[neighbor]) {
+        dist[neighbor] = newDist;
+        heap.push({ node: neighbor, dist: newDist });
+      }
+    }
+  }
+
+  return dist;
+}
+
+  ||
+    ->
+      ->
+        class MinHeap {
+              constructor() {
+                this.data = [];
+              }
+            
+              push(node) {
+                this.data.push(node);
+                this._bubbleUp(this.data.length - 1);
+              }
+            
+              pop() {
+                if (this.data.length === 0) return null;
+                const top = this.data[0];
+                const last = this.data.pop();
+                if (this.data.length > 0) {
+                  this.data[0] = last;
+                  this._bubbleDown(0);
+                }
+                return top;
+              }
+            
+              _bubbleUp(i) {
+                while (i > 0) {
+                  const p = Math.floor((i - 1) / 2);
+                  if (this.data[p].dist <= this.data[i].dist) break;
+                  [this.data[p], this.data[i]] = [this.data[i], this.data[p]];
+                  i = p;
+                }
+              }
+            
+              _bubbleDown(i) {
+                const n = this.data.length;
+                while (true) {
+                  let smallest = i;
+                  const left = 2 * i + 1;
+                  const right = 2 * i + 2;
+            
+                  if (left < n && this.data[left].dist < this.data[smallest].dist)
+                    smallest = left;
+                  if (right < n && this.data[right].dist < this.data[smallest].dist)
+                    smallest = right;
+            
+                  if (smallest === i) break;
+                  [this.data[i], this.data[smallest]] = [this.data[smallest], this.data[i]];
+                  i = smallest;
+                }
+              }
+            
+              isEmpty() {
+                return this.data.length === 0;
+              }
+            }
+      
+//***
