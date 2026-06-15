@@ -139,7 +139,7 @@ This file contains short example snippets for the topics we discussed: Express R
 
 ## 1. Minimal Express REST API (CRUD)
 
-```js
+//js
 // package.json should have: "type": "module" or use require() instead of import
 import express from 'express';
 
@@ -238,13 +238,13 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}`);
 });
-```
+
 
 ---
 
 ## 2. Simple rate limiter middleware
 
-```js
+//js
 // Basic in-memory rate limiter
 function rateLimiter({ windowMs = 60_000, max = 60 } = {}) {
   const hits = new Map(); // key -> { count, windowStart }
@@ -282,13 +282,13 @@ app.get('/', (req, res) => {
 });
 
 app.listen(3000);
-```
+
 
 ---
 
 ## 3. Streams: copy a file and count lines with "ERROR"
 
-```js
+//js
 // copy-file.js
 import fs from 'fs';
 
@@ -328,7 +328,7 @@ rl.on('line', (line) => {
 rl.on('close', () => {
   console.log(`Lines containing "ERROR": ${count}`);
 });
-```
+
 
 ---
 
