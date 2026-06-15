@@ -1,4 +1,4 @@
-Iâ€™m going to provide concise reference answers for the Node.js practice questions we discussed earlier.
+Concise reference answers for the Node.js practice questions we discussed earlier.
 
 ---
 
