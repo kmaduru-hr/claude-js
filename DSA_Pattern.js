@@ -240,6 +240,33 @@ const freq = new Map();
    if(matches === freq.size) return true;
  }
 
+// inout "226" output = 3 ( 2 2 26) (2,26) (22,6)
+var numDecodings_V2 = function(s) {
+    if (!s || s[0] === '0') {
+        return 0;
+    }
 
+    let prev2 = 1;  // dp[i-2]
+    let prev1 = 1;  // dp[i-1]
 
+    for (let i = 1; i < s.length; i++) {
+        let curr = 0;  // dp[i]
+
+        const oneDigit = parseInt(s[i]);
+        if (oneDigit !== 0) {
+            curr += prev1;
+        }
+
+        const twoDigits = parseInt(s.substring(i - 1, i + 1));
+        if (10 <= twoDigits && twoDigits <= 26) {
+            curr += prev2;
+        }
+
+        // Shift pointers
+        prev2 = prev1;
+        prev1 = curr;
+    }
+
+    return prev1;
+};
 
