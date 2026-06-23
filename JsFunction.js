@@ -568,3 +568,26 @@ javascriptconst intersection = (arr1, arr2) => {
   return arr1.filter(item => arr2.includes(item));
 };
 console.log(intersection([1, 2, 3], [2, 3, 4])); // [2, 3]
+
+function convert2Sum(str){
+   let charMap = { a:1,b:2,c:3,d:4,e:5,f:6, 1:1,2:2,3:3};
+
+  if(str == '') return 0;
+  let len =str.length;
+  let sum = 0;
+
+  for(let i=0; i<len; i++){
+    sum += charMap[str[i].toLowerCase()];  
+  }
+  /*
+  
+        // if(str[i] >=0 && str[i] <=9){
+        //     //sum += str[i].charCodeAt() - 48;
+        // }else{
+        //     //sum += str[i].charCodeAt() - 96;
+        // }
+  */
+  return sum ;
+}
+
+console.log(convert2Sum('ABCbcdef123'));
